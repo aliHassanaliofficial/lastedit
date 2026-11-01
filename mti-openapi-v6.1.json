@@ -1,0 +1,557 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "MTI Platform - Open Dynamic Core v6.1",
+    "version": "6.1.0",
+    "description": "MTI is INTERMEDIARY ONLY platform. Developer required: MTI Platform Specialist, not general platform specialist. Knows MTI more than anyone else. Scope: Establishment, Creation, Operation, Supervision and Development for 5 Years. Core: Kernel + Plugin Registry + EventBus + OpenAPI Aggregator. Open Inside / Open Outside / Never Closed. Platform 100% is Personal Assistant - English only - Professional global market.",
+    "contact": {
+      "name": "Farag Mohamed Ali Hussein",
+      "email": "business10th@protonmail.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.mti.eg/v6.1",
+      "description": "Production"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "apiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-MTI-API-Key"
+      }
+    },
+    "schemas": {
+      "ClientRequest": {
+        "type": "object",
+        "required": [
+          "client_id",
+          "product_type",
+          "quantity",
+          "destination_port"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "client_id": {
+            "type": "string",
+            "description": "Owner client account - request belongs to client"
+          },
+          "product_type": {
+            "type": "string",
+            "enum": [
+              "ceramic_tile",
+              "porcelain",
+              "sanitary",
+              "building_material"
+            ],
+            "example": "ceramic_tile"
+          },
+          "quantity": {
+            "type": "number",
+            "example": 500
+          },
+          "unit": {
+            "type": "string",
+            "enum": [
+              "ton",
+              "container",
+              "m2"
+            ],
+            "default": "ton"
+          },
+          "destination_port": {
+            "type": "string",
+            "example": "Rotterdam"
+          },
+          "incoterm": {
+            "type": "string",
+            "enum": [
+              "FOB",
+              "CIF",
+              "EXW"
+            ],
+            "default": "FOB"
+          },
+          "target_price_fob": {
+            "type": "number",
+            "description": "Client budget, MTI does not price"
+          },
+          "factory_preference": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "Cleopatra",
+              "Lesico"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "published",
+              "matched",
+              "in_escrow",
+              "shipped",
+              "closed"
+            ],
+            "default": "draft"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "SellerOffer": {
+        "type": "object",
+        "required": [
+          "seller_id",
+          "client_request_id",
+          "price_fob",
+          "factory"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "seller_id": {
+            "type": "string",
+            "description": "Owner seller/supplier account - offer belongs to seller"
+          },
+          "client_request_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Links to ClientRequest"
+          },
+          "factory": {
+            "type": "string",
+            "enum": [
+              "Cleopatra",
+              "Lesico",
+              "Other"
+            ],
+            "example": "Cleopatra"
+          },
+          "price_fob": {
+            "type": "number",
+            "example": 13500,
+            "description": "Seller price, not MTI price"
+          },
+          "quantity_available": {
+            "type": "number"
+          },
+          "lead_time_days": {
+            "type": "integer"
+          },
+          "hs_code": {
+            "type": "string",
+            "example": "6907.21"
+          },
+          "inspection_body": {
+            "type": "string",
+            "enum": [
+              "GOEIC",
+              "EGAC",
+              "Other"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "sent",
+              "accepted",
+              "rejected"
+            ],
+            "default": "draft"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "MTI_Coordination_Record": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "client_request_id": {
+            "type": "string"
+          },
+          "seller_offer_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "coordinator_id": {
+            "type": "string",
+            "description": "MTI staff"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "open",
+              "negotiating",
+              "matched",
+              "closed"
+            ]
+          },
+          "notes": {
+            "type": "string",
+            "description": "Coordination only, not commercial"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "MTI_Match_Record": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "client_request_id": {
+            "type": "string"
+          },
+          "seller_offer_id": {
+            "type": "string"
+          },
+          "match_score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "matched_by": {
+            "type": "string",
+            "enum": [
+              "system",
+              "coordinator"
+            ]
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "MTI_Commission_Record": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "match_id": {
+            "type": "string"
+          },
+          "commission_type": {
+            "type": "string",
+            "enum": [
+              "fixed",
+              "percentage"
+            ]
+          },
+          "commission_value": {
+            "type": "number",
+            "example": 13500,
+            "description": "FOB $13,500 reference"
+          },
+          "currency": {
+            "type": "string",
+            "default": "USD"
+          },
+          "payer": {
+            "type": "string",
+            "enum": [
+              "client",
+              "seller",
+              "split"
+            ]
+          },
+          "invoice_status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "invoiced",
+              "paid"
+            ]
+          }
+        }
+      },
+      "Escrow_Instruction": {
+        "type": "object",
+        "required": [
+          "match_id",
+          "bank",
+          "amount"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "match_id": {
+            "type": "string"
+          },
+          "bank": {
+            "type": "string",
+            "enum": [
+              "NBE",
+              "Other_Licensed"
+            ],
+            "description": "MTI does NOT hold funds"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "currency": {
+            "type": "string",
+            "default": "USD"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "issued",
+              "funded",
+              "released",
+              "refunded"
+            ]
+          },
+          "bank_reference": {
+            "type": "string"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "details": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/client-requests": {
+      "post": {
+        "summary": "Client creates own request - MTI does not issue requests",
+        "operationId": "createClientRequest",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientRequest"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "List client requests with pagination",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/seller-offers": {
+      "post": {
+        "summary": "Seller creates own offer - MTI does not issue offers",
+        "operationId": "createSellerOffer",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SellerOffer"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SellerOffer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/coordination-records": {
+      "get": {
+        "summary": "List MTI coordination records",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create coordination record (MTI staff only)",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MTI_Coordination_Record"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/matches": {
+      "post": {
+        "summary": "MTI match linking client request to seller offer",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MTI_Match_Record"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/commissions": {
+      "post": {
+        "summary": "Record commission",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MTI_Commission_Record"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/escrow-instructions": {
+      "post": {
+        "summary": "Issue escrow instruction to licensed bank - MTI does not hold funds",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Escrow_Instruction"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    }
+  },
+  "x-mti-policy": {
+    "mti_role": "INTERMEDIARY_ONLY",
+    "forbidden_endpoints": [
+      "/mti-requests",
+      "/mti-offers",
+      "/mti-quotations",
+      "/mti-inventory"
+    ],
+    "developer_profile": "MTI Platform Specialist - Knows MTI more than anyone else",
+    "scope": "Establishment, Creation, Operation, Supervision and Development for 5 Years",
+    "open_core": "Kernel + Plugin Registry + EventBus + OpenAPI Aggregator",
+    "principle": "Open Inside / Open Outside / Never Closed"
+  }
+}

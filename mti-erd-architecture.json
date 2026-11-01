@@ -1,0 +1,12 @@
+{
+  "meta": {
+    "version": "6.1-clean-english-only",
+    "date": "2026-11-01"
+  },
+  "principle": "Open Dynamic Core v6.1 - Open Inside / Open Outside / Never Closed",
+  "developer_identity": "MTI Platform Specialist - Not General Platform Specialist - Knows MTI more than anyone else",
+  "scope": "Establishment, Creation, Operation, Supervision and Development for 5 Years",
+  "six_layers": "See engineering spec",
+  "erd": "Client owns ClientRequest, Seller owns SellerOffer, MTI coordination only, Escrow via licensed bank NBE",
+  "language": "English Only"
+}

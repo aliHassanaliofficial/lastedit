@@ -1,0 +1,77 @@
+{
+  "meta": {
+    "title": "MTI Enterprise Correspondence Center and Archive System - FIXED Developer Kit - ENGLISH ONLY",
+    "version": "6.1-clean-english-only",
+    "date": "2026-11-01",
+    "language": "English Only - No Arabic",
+    "developer_profile": "MTI Platform Specialist - Knows MTI more than anyone else",
+    "scope": "Establishment, Creation, Operation, Supervision and Development for 5 Years",
+    "is_implementable_spec": true,
+    "linked_specs": [
+      "mti-openapi-v6.1.json",
+      "mti-engineering-specification.json",
+      "mti-erd-architecture.json"
+    ]
+  },
+  "four_pillars_clean": {
+    "pillar_1_technical": {
+      "owner": "Developer - MTI Platform Specialist",
+      "stack": "Next.js + Node.js + PostgreSQL + Redis + OpenSearch + S3 + JWT + RBAC 6 levels",
+      "code_provided": [
+        "kernel.ts",
+        "base-internal-system.ts",
+        "base-external-adapter.ts"
+      ],
+      "implementation": "Open Core v6.1 - Kernel boots, registers plugins via PluginRegistry, emits events via EventBus, never closed"
+    },
+    "pillar_2_legal": {
+      "owner": "Lawyer",
+      "key_rule": "MTI is intermediary only, does not own goods, does not buy/sell, does not hold client funds - Escrow via licensed bank NBE",
+      "questions": [
+        "Who bears liability if shipment fails?",
+        "How is escrow released at NBE?",
+        "What is MTI disclaimer?"
+      ],
+      "clauses": [
+        "IP confidentiality",
+        "No redelegation",
+        "Permanent preservation",
+        "Six-level security and authority"
+      ]
+    },
+    "pillar_3_financial": {
+      "owner": "Accountant and Auditor",
+      "questions": [
+        "How is 13500 commission calculated?",
+        "Who pays commission?",
+        "Tax treatment?",
+        "Waterfall 37 protocols?"
+      ],
+      "clauses": [
+        "Analytics and effectiveness",
+        "Pricing codes"
+      ]
+    },
+    "pillar_4_operational": {
+      "owner": "Operations - Factories, GOEIC, EGAC, Customs",
+      "questions": [
+        "Client requests 500 ton ceramic - factory response time?",
+        "GOEIC inspection steps?",
+        "Shipping docs?"
+      ],
+      "clauses": [
+        "Workflows",
+        "Migration and handover",
+        "Support and auto-updates"
+      ]
+    }
+  },
+  "validation": {
+    "is_valid_json": true,
+    "has_no_arabic": true,
+    "has_no_not_a_program_flag": true,
+    "is_english_only": true,
+    "has_schemas": "See mti-openapi-v6.1.json",
+    "has_erd": "See mti-erd-architecture.json"
+  }
+}

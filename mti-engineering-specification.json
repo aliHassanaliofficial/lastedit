@@ -1,0 +1,60 @@
+{
+  "meta": {
+    "project": "MTI",
+    "artifact": "MTI_Engineering_Specification_FIXED_ENGLISH_ONLY",
+    "version": "6.1-clean",
+    "date": "2026-11-01",
+    "owner": "Farag Mohamed Ali Hussein",
+    "developer_profile": "MTI Platform Specialist - Not General Platform Specialist - Knows MTI more than anyone else",
+    "scope": "Establishment, Creation, Operation, Supervision and Development for 5 Years",
+    "language": "English Only - No Arabic"
+  },
+  "core_policy": {
+    "mti_role": "INTERMEDIARY_ONLY",
+    "principle": "Open Inside / Open Outside / Never Closed",
+    "core_architecture": "Kernel + Plugin Registry + EventBus + OpenAPI Aggregator - Open Dynamic Core v6.1",
+    "rules": [
+      "MTI does not issue requests or offers in its own name",
+      "MTI does not own goods, inventory, or client funds",
+      "MTI does not buy or sell goods or services",
+      "Every request belongs to the client who created it",
+      "Every offer belongs to the seller, supplier, exporter, or service provider",
+      "Escrow and client funds are handled only by a licensed bank or licensed escrow provider"
+    ]
+  },
+  "six_layers": {
+    "L1_Presentation": "Next.js 15 RTL/LTR support but English UI",
+    "L2_API_Gateway": "OpenAPI Aggregator + JWT + RBAC 6 levels",
+    "L3_Core_Kernel": "Kernel + Plugin Registry + EventBus - mountable never closed",
+    "L4_Business_Logic_18_Units": [
+      "HS-Code Engine",
+      "FOB Pricing 13500",
+      "Waterfall Protocol 37",
+      "Client Request Manager",
+      "Seller Offer Manager",
+      "Matching Engine",
+      "Coordination Center",
+      "Commission Engine",
+      "Escrow Gateway NBE",
+      "Factory Adapter Cleopatra Lesico",
+      "Inspection Adapter GOEIC EGAC",
+      "Correspondence Archive",
+      "Document Generator",
+      "Notification Hub",
+      "Analytics",
+      "Permanent Preservation",
+      "Six-Level Security",
+      "Support"
+    ],
+    "L5_Integration": "BaseInternalSystem + BaseExternalAdapter - Open Inside Outside",
+    "L6_Data": "PostgreSQL + Redis + OpenSearch + S3"
+  },
+  "erd": [
+    "Client 1--* ClientRequest (owns)",
+    "Seller 1--* SellerOffer (owns)",
+    "ClientRequest 1--* MTI_Coordination_Record",
+    "MTI_Coordination_Record 1--* MTI_Match_Record",
+    "MTI_Match_Record 1--1 MTI_Commission_Record",
+    "MTI_Match_Record 1--* Escrow_Instruction (to licensed bank NBE, NOT held by MTI)"
+  ]
+}
